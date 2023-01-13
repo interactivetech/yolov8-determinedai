@@ -1,0 +1,15 @@
+name: yolov8_train_test
+entrypoint: >-
+  python core-api-train.py
+
+hyperparameters:
+  test: "test"
+
+max_restarts: 0
+resources:
+  slots_per_trial: 1
+searcher:
+   name: single
+   max_length: 1 # this will be the number of epochs in this case
+   metric: train/total_loss
+   smaller_is_better: True

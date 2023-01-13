@@ -1,0 +1,18 @@
+name: yolov8_train_test
+entrypoint: >-
+  python core-api-train.py
+
+hyperparameters:
+  test: "test"
+
+max_restarts: 0
+resources:
+  slots_per_trial: 1
+  # shm_size: 2000000000
+environment:
+  image: determinedai/environments:py-3.8-pytorch-1.10-tf-2.8-cpu-0.19.10
+searcher:
+   name: single
+   max_length: 1 # this will be the number of epochs in this case
+   metric: train/total_loss
+   smaller_is_better: True
