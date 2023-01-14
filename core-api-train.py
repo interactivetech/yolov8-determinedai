@@ -70,16 +70,15 @@ def log_model(trainer,core_context):
     table = AsciiTable(table_d)
     print(table.table)
 
-def run_train(core_context):
+def run_train(core_context,hparams):
     FILE = Path(__file__).resolve()
-    # ROOT = FILE.parents[2]  # YOLO
 
     CFG = get_config(DEFAULT_CONFIG)
     experiment_params = {
                 
                 'save':True,
-                'project':'runs', 
-                'name':'test_run', 
+                'project':hparams['project'], 
+                'name':hparams['name'], 
                 'exist_ok':False, 
                 'verbose':False, 
                 'deterministic':True, 
@@ -101,40 +100,39 @@ def run_train(core_context):
                 'copy_paste':0.0,
     }
     training_params = {
-                'data':"coco128.yaml",
-                'pretrained':False,
-                "model": 'yolov8n.pt',# test
-                'epochs':10,# Number of epochs to train
-                'imgsz':64, # Image size of data in dataloader
-                'patience':128//5,
-                'batch':16, # Batch size of the dataloader
-                'cache':False, 
-                'device':'None', # cuda device, i.e. 0 or 0,1,2,3 or cpu. '' selects available cuda 0 device
-                'workers':8,# Number of cpu workers used per process. Scales automatically with DDP
-                'optimizer':'SGD', # Optimizer used. Supported optimizer are: Adam, SGD, RMSProp
-                'seed':0,
-                'single_cls':False, # Train on multi-class data as single-class
-                'image_weights':False, # Use weighted image selection for training
-                'rect':False, # Enable rectangular training
-                'cos_lr':False, #Use cosine LR scheduler
-                'close_mosaic':10, 
-                'resume':False, 
-                'overlap_mask':True, 
-                'mask_ratio':4, 
-                'dropout':False,
-                'lr0':0.01, # Initial learning rate
-                'lrf':0.01, # Final OneCycleLR learning rate
-                'momentum':0.937, # Use as momentum for SGD and beta1 for Adam
-                'weight_decay':0.0005, # Optimizer weight decay
-                'warmup_epochs':3.0,  # Warmup epochs. Fractions are ok.
-                'warmup_momentum':0.8, # Warmup initial momentum
-                'warmup_bias_lr':0.1, # Warmup initial bias lr
-                'box':7.5, # Box loss gain
-                'cls':0.5, # cls loss gain
-                'dfl':1.5, 
-                'fl_gamma':0.0, # focal loss gamma
-                'label_smoothing':0.0, 
-                'nbs':64, # nominal batch size
+                'data':hparams['data'],
+                'pretrained':hparams['pretrained'],
+                "model": hparams["model"],# test
+                'epochs':hparams['epochs'],# Number of epochs to train
+                'imgsz':hparams['imgsz'], # Image size of data in dataloader
+                'patience': hparams['patience'],
+                'batch':hparams['batch'], # Batch size of the dataloader
+                'cache':hparams['cache'], 
+                'device':hparams['device'], # cuda device, i.e. 0 or 0,1,2,3 or cpu. '' selects available cuda 0 device
+                'workers':hparams['workers'],# Number of cpu workers used per process. Scales automatically with DDP
+                'optimizer':hparams['optimizer'], # Optimizer used. Supported optimizer are: Adam, SGD, RMSProp
+                'seed':hparams['seed'],
+                'single_cls':hparams['single_cls'], # Train on multi-class data as single-class
+                'image_weights':hparams['image_weights'], # Use weighted image selection for training
+                'rect':hparams['rect'], # Enable rectangular training
+                'cos_lr':hparams['cos_lr'], #Use cosine LR scheduler
+                'close_mosaic':hparams['close_mosaic'], 
+                'resume': hparams['resume'], 
+                'overlap_mask': hparams['overlap_mask'], 
+                'mask_ratio': hparams['mask_ratio'], 
+                'lr0': hparams['lr0'], # Initial learning rate
+                'lrf': hparams['lrf'], # Final OneCycleLR learning rate
+                'momentum': hparams['momentum'], # Use as momentum for SGD and beta1 for Adam
+                'weight_decay': hparams['weight_decay'], # Optimizer weight decay
+                'warmup_epochs': hparams['warmup_epochs'],  # Warmup epochs. Fractions are ok.
+                'warmup_momentum': hparams['warmup_momentum'], # Warmup initial momentum
+                'warmup_bias_lr': hparams['warmup_bias_lr'], # Warmup initial bias lr
+                'box': hparams['box'], # Box loss gain
+                'cls': hparams['cls'], # cls loss gain
+                'dfl': hparams['dfl'], 
+                'fl_gamma': hparams['fl_gamma'], # focal loss gamma
+                'label_smoothing': hparams['label_smoothing'], 
+                'nbs': hparams['nbs'], # nominal batch size
     }
     experiment_params.update(training_params)
     experiment_params.update(augmentation_params)
@@ -156,7 +154,7 @@ def main(info):
     distributed=None
     
     with det.core.init(distributed=distributed) as core_context:
-        run_train(core_context)
+        run_train(core_context,hparams)
 
 if __name__ == '__main__':
     info = det.get_cluster_info()

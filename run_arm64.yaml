@@ -4,7 +4,41 @@ entrypoint: >-
 
 hyperparameters:
   test: "test"
-
+  project: 'runs'
+  name: 'test_run'
+  data: "coco128.yaml"
+  model: 'yolov8n.pt'
+  epochs: 3 # Number of epochs to train
+  imgsz: 224 # Image size of data in dataloader
+  patience: 26 #128//5
+  pretrained: False
+  batch: 16 # Batch size of the dataloader
+  device: 'None' # cuda device, i.e. 0 or 0,1,2,3 or cpu. '' selects available cuda 0 device
+  workers: 8 # Number of cpu workers used per process. Scales automatically with DDP
+  optimizer: 'SGD' # Optimizer used. Supported optimizer are: Adam, SGD, RMSProp
+  seed: 0
+  cache: False
+  single_cls: False
+  image_weights: False # Use weighted image selection for training
+  rect: False # Enable rectangular training
+  cos_lr: False #Use cosine LR scheduler
+  close_mosaic: 10
+  resume: False
+  overlap_mask: True
+  mask_ratio: 4
+  lr0: 0.01 # Initial learning rate
+  lrf: 0.01 # Final OneCycleLR learning rate
+  momentum: 0.937  # Use as momentum for SGD and beta1 for Adam
+  weight_decay: 0.0005 # Optimizer weight decay
+  warmup_epochs: 3.0 # Warmup epochs. Fractions are ok.
+  warmup_momentum: 0.8 # Warmup initial momentum
+  warmup_bias_lr: 0.1 # Warmup initial bias lr
+  box: 7.5 # Box loss gain
+  cls: 0.5 # cls loss gain
+  dfl: 1.5
+  fl_gamma: 0.0 
+  label_smoothing: 0.0 # focal loss gamma
+  nbs: 64 # nominal batch size
 max_restarts: 0
 resources:
   slots_per_trial: 1
@@ -13,6 +47,6 @@ environment:
   image: determinedai/environments:py-3.8-pytorch-1.10-tf-2.8-cpu-0.19.10
 searcher:
    name: single
-   max_length: 1 # this will be the number of epochs in this case
-   metric: train/total_loss
-   smaller_is_better: True
+   max_length: 1 # Wont be using this, this is for PytorchTrial Class
+   metric: mAP50
+   smaller_is_better: False
