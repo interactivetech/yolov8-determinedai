@@ -1,5 +1,6 @@
 # YoloV8 with DeterminedAI
 Proof of Concept on how to integrate YoloV8(https://github.com/ultralytics/ultralytics) with DeterminedAI
+
 Author: Andrew Mendez
 # Installation Steps
 `bash install-dep.sh`
