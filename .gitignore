@@ -9,6 +9,10 @@ __pycache__/
 # train logs
 runs/
 *.pt
+
+# datasets
+datasets/
+
 # Distribution / packaging
 .Python
 build/

@@ -6,10 +6,10 @@ hyperparameters:
   test: "test"
   project: 'runs'
   name: 'test_run'
-  data: "coco128.yaml"
+  data: "full_coco_data.yaml"
   model: 'yolov8n.pt'
-  epochs: 50 # Number of epochs to train
-  imgsz: 640 # Image size of data in dataloader
+  epochs: 2 # Number of epochs to train
+  imgsz: 224 # Image size of data in dataloader
   patience: 26 #128//5
   pretrained: False
   batch: 16 # Batch size of the dataloader
@@ -42,7 +42,8 @@ hyperparameters:
 
 max_restarts: 0
 resources:
-  slots_per_trial: 1
+  slots_per_trial: 4
+  shm_size: 2000000000
 searcher:
    name: single
    max_length: 1 # this will be the number of epochs in this case
