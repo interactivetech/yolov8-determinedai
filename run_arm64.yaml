@@ -1,4 +1,4 @@
-name: yolov8_train_test
+name: yolov8_train_test_arm64
 entrypoint: >-
   python core-api-train.py
 
