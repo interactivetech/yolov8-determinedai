@@ -1,1 +1,1 @@
-det -m http://demo.determined.ai:8080/ experiment create -f run_full_coco.yaml . 
+det -m http://localhost:8081/ experiment create -f run_full_coco.yaml . 
