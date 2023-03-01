@@ -9,9 +9,9 @@ Author: Andrew Mendez
 
 Currently the code only supports single node multi-gpu training. More work is needed to support multiple node.
 If you want to train with multiple gpus, only edit the: `device` config setting. You should edit where you specify all the cuda devices you want to use. Examples are follows:
-Train on single GPU: `device: 0`
-Train on 4 GPUs: `device: 0,1,2,3`
-Train on 8 GPUs: `device: 0,1,2,3,4,5,6,7`
+* Train on single GPU: `device: 0`
+* Train on 4 GPUs: `device: 0,1,2,3`
+* Train on 8 GPUs: `device: 0,1,2,3,4,5,6,7`
 
 # Spin up Determined Cluster (No GPU cluster)
 `det deploy local cluster-up --no-gpu --master-port 8081`
