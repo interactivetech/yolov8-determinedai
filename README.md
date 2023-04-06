@@ -17,7 +17,7 @@ If you want to train with multiple gpus, only edit the: `device` config setting.
 `det deploy local cluster-up --no-gpu --master-port 8081`
 
 # Spin up Determined Cluster (GPU cluster)
-`det deploy local cluster-up --no-gpu --master-port 8081`
+`det deploy local cluster-up --master-port 8081`
 
 # Run Training if using M1 Mac (Arm64)
 `bash run_exp_arm64.sh`
