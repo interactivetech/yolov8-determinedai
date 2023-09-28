@@ -4,7 +4,8 @@ project: Real Time Object Detection
 description: "YoloV8 Real Time Object Detection"
 entrypoint: >-
   python core-api-train.py
-
+environment:
+  image: "determinedai/environments:cuda-11.3-pytorch-1.12-gpu-mpi-e3c3210"
 bind_mounts:
   - container_path: /run/determined/workdir/
     host_path: /checkpoints
