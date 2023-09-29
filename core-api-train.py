@@ -1,8 +1,7 @@
-from ultralytics.yolo.utils import DEFAULT_CONFIG
-from ultralytics.yolo.configs import get_config
+from ultralytics.yolo.utils import DEFAULT_CFG_PATH
+from ultralytics.yolo.cfg import get_cfg
 from ultralytics.yolo.v8 import classify, detect, segment
 from pprint import pprint
-from ultralytics.yolo.utils import DEFAULT_CONFIG, ROOT
 
 from pathlib import Path
 import os
@@ -35,10 +34,10 @@ def log_model(trainer,core_context):
     metrics = validator.metrics
     table_d=[['Class','Images','Instances','Precision','Recall','mAP50','mAP50-95']]
     mean_res = validator.metrics.mean_results()
-    mean_p="{:.4f}".format(mean_res[0])
-    mean_r="{:.4f}".format(mean_res[1])
-    mAP50="{:.4f}".format(mean_res[2])
-    mAP50_95= "{:.4f}".format(mean_res[3])
+    mean_p=float("{:.4f}".format(mean_res[0]))
+    mean_r=float("{:.4f}".format(mean_res[1]))
+    mAP50=float("{:.4f}".format(mean_res[2]))
+    mAP50_95= float("{:.4f}".format(mean_res[3]))
     table_d.append(["all",
                     validator.seen,
                     validator.nt_per_class.sum(),
@@ -73,13 +72,13 @@ def log_model(trainer,core_context):
 def run_train(core_context,hparams):
     FILE = Path(__file__).resolve()
 
-    CFG = get_config(DEFAULT_CONFIG)
+    CFG = get_cfg(DEFAULT_CFG_PATH)
     experiment_params = {
                 
                 'save':True,
                 'project':hparams['project'], 
                 'name':hparams['name'], 
-                'exist_ok':False, 
+                'exist_ok':hparams['exist_ok'], 
                 'verbose':False, 
                 'deterministic':True, 
                 'v5loader':True
@@ -113,7 +112,7 @@ def run_train(core_context,hparams):
                 'optimizer':hparams['optimizer'], # Optimizer used. Supported optimizer are: Adam, SGD, RMSProp
                 'seed':hparams['seed'],
                 'single_cls':hparams['single_cls'], # Train on multi-class data as single-class
-                'image_weights':hparams['image_weights'], # Use weighted image selection for training
+                # 'image_weights':hparams['image_weights'], # Use weighted image selection for training
                 'rect':hparams['rect'], # Enable rectangular training
                 'cos_lr':hparams['cos_lr'], #Use cosine LR scheduler
                 'close_mosaic':hparams['close_mosaic'], 
@@ -130,7 +129,7 @@ def run_train(core_context,hparams):
                 'box': hparams['box'], # Box loss gain
                 'cls': hparams['cls'], # cls loss gain
                 'dfl': hparams['dfl'], 
-                'fl_gamma': hparams['fl_gamma'], # focal loss gamma
+                # 'fl_gamma': hparams['fl_gamma'], # focal loss gamma
                 'label_smoothing': hparams['label_smoothing'], 
                 'nbs': hparams['nbs'], # nominal batch size
     }

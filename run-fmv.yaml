@@ -5,14 +5,17 @@ description: "YoloV8 Real Time Object Detection"
 entrypoint: >-
   python core-api-train.py
 environment:
-  image: "determinedai/environments:cuda-11.3-pytorch-1.12-tf-2.11-gpu-2b7e2a1"
+  image: "mendeza/yolov8det:0.0.2"
 bind_mounts:
   - container_path: /run/determined/workdir/
     host_path: /checkpoints
+  - container_path: /datasets/
+    host_path: /datasets
 hyperparameters:
   test: "test"
   project: 'runs'
   name: 'test_run'
+  exist_ok: True
   data: "/datasets/virat-aerial-156-frames-v2-coco-yolov5/data-det.yaml"
   model: 'yolov8l.pt'
   epochs: 10 # Number of epochs to train
@@ -26,10 +29,10 @@ hyperparameters:
   seed: 0
   cache: False
   single_cls: False
-  image_weights: False # Use weighted image selection for training
+  # image_weights: False # Use weighted image selection for training
   rect: False # Enable rectangular training
   cos_lr: False #Use cosine LR scheduler
-  close_mosaic: 10
+  close_mosaic: 100 #set high, cause issues if epochs < close_mosaic
   resume: False
   overlap_mask: True
   mask_ratio: 4
@@ -43,7 +46,7 @@ hyperparameters:
   box: 7.5 # Box loss gain
   cls: 0.5 # cls loss gain
   dfl: 1.5
-  fl_gamma: 0.0 
+  # fl_gamma: 0.0 
   label_smoothing: 0.0 # focal loss gamma
   nbs: 64 # nominal batch size
 

@@ -1,0 +1,36 @@
+bind_mounts:
+- container_path: /home/psdcadmin/Documents/andrew
+  host_path: /home/psdcadmin/Documents/andrew
+- container_path: /datasets
+  host_path: /datasets
+- container_path: /checkpoints
+  host_path: /checkpoints
+  propagation: rprivate
+  read_only: false
+debug: false
+description: Demo Template
+entrypoint:
+- /run/determined/jupyter/notebook-entrypoint.sh
+environment:
+  add_capabilities: null
+  drop_capabilities: null
+  environment_variables: {}
+  force_pull_image: false
+  image:
+    cpu: mendeza/yolov8det:0.0.3
+    cuda: mendeza/yolov8det:0.0.3
+    rocm: mendeza/yolov8det:0.0.3
+  pod_spec: null
+  ports: null
+  proxy_ports: null
+idle_timeout: null
+notebook_idle_type: kernels_or_terminals
+pbs: {}
+resources:
+  devices: null
+  resource_pool: default
+  slots: 0
+  weight: 1
+slurm: {}
+work_dir: /home/psdcadmin/Documents/andrew
+
