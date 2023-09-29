@@ -1,0 +1,1 @@
+det deploy local cluster-up --auto-work-dir='/home/psdcadmin/Documents/andrew' --master-port=8080

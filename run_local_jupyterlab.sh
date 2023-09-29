@@ -1,0 +1,1 @@
+jupyter lab --ip=0.0.0.0 --port=8008 --NotebookApp.token="" --NotebookApp.password=""
