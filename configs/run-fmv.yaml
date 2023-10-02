@@ -18,7 +18,7 @@ hyperparameters:
   exist_ok: True
   data: "/datasets/virat-aerial-156-frames-v2-coco-yolov5/data-det.yaml"
   model: 'yolov8l.pt'
-  epochs: 10 # Number of epochs to train
+  epochs: 40 # Number of epochs to train
   imgsz: 320 # Image size of data in dataloader
   patience: 3 #128//5
   pretrained: True

@@ -1579,6 +1579,7 @@ def export_single_yolov5_image_and_corresponding_txt(
             name_increment += 1
         # create a symbolic link pointing to coco_image_path named yolo_image_path
         # os.symlink(coco_image_path, yolo_image_path)
+        # Andrew (10.2.23): Updated symlink to actual copy
         shutil.copy(coco_image_path, yolo_image_path) 
         # calculate annotation normalization ratios
         width = coco_image.width

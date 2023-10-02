@@ -1,0 +1,60 @@
+name: yolov8-coreapi-fmv
+workspace: Tiger Team
+project: Real Time Object Detection
+description: "YoloV8 Real Time Object Detection"
+entrypoint: >-
+  python core-api-train.py
+environment:
+  image: "mendeza/yolov8det:0.0.2"
+bind_mounts:
+  - container_path: /run/determined/workdir/
+    host_path: /checkpoints
+  - container_path: /datasets/
+    host_path: /datasets
+hyperparameters:
+  test: "test"
+  project: 'runs'
+  name: 'test_run2'
+  exist_ok: True
+  data: "/datasets/tiger-team-dataset-v2-yolov5/data.yml"
+  model: 'yolov8l.pt'
+  epochs: 10 # Number of epochs to train
+  imgsz: 224 # Image size of data in dataloader
+  patience: 3 #128//5
+  pretrained: True
+  batch: 32 # Batch size of the dataloader
+  device: '0' # cuda device, i.e. 0 or 0,1,2,3 or cpu. '' selects available cuda 0 device
+  workers: 8 # Number of cpu workers used per process. Scales automatically with DDP
+  optimizer: 'SGD' # Optimizer used. Supported optimizer are: Adam, SGD, RMSProp
+  seed: 0
+  cache: False
+  single_cls: False
+  # image_weights: False # Use weighted image selection for training
+  rect: False # Enable rectangular training
+  cos_lr: False #Use cosine LR scheduler
+  close_mosaic: 100 #set high, cause issues if epochs < close_mosaic
+  resume: False
+  overlap_mask: True
+  mask_ratio: 4
+  lr0: 0.01 # Initial learning rate
+  lrf: 0.01 # Final OneCycleLR learning rate
+  momentum: 0.937  # Use as momentum for SGD and beta1 for Adam
+  weight_decay: 0.0005 # Optimizer weight decay
+  warmup_epochs: 3.0 # Warmup epochs. Fractions are ok.
+  warmup_momentum: 0.8 # Warmup initial momentum
+  warmup_bias_lr: 0.1 # Warmup initial bias lr
+  box: 7.5 # Box loss gain
+  cls: 0.5 # cls loss gain
+  dfl: 1.5
+  # fl_gamma: 0.0 
+  label_smoothing: 0.0 # focal loss gamma
+  nbs: 64 # nominal batch size
+
+max_restarts: 0
+resources:
+  slots_per_trial: 1
+searcher:
+   name: single
+   max_length: 1 # this will be the number of epochs in this case
+   metric: train/total_loss
+   smaller_is_better: True
