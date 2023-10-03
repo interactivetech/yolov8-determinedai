@@ -3,7 +3,7 @@ from sahi.utils.file import load_json, save_json
 import os
 
 DATA_DIR = '/home/psdcadmin/Documents/andrew/datasets'
-COCO_DATASET_NAME='tiger-team-dataset-v2'
+COCO_DATASET_NAME='tiger-team-dataset-v4'
 
 
 coco = Coco.from_coco_dict_or_path(coco_dict_or_path=os.path.join(DATA_DIR,COCO_DATASET_NAME,'annotations/instances_default.json'),
