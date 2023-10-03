@@ -1,0 +1,8 @@
+
+cd ~/Documents/andrew/yolov8-determined
+conda activate det
+det deploy local cluster-up --auto-work-dir="/home/psdcadmin/Documents/andrew" --master-port=8080
+jupyter lab --ip=0.0.0.0 --port=8008 --NotebookApp.token='' -NotebookApp.token=''
+
+jupyter lab will be at : http://localhost:8008
+determined UI will be at: http://localhost:8080
