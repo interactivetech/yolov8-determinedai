@@ -1,5 +1,5 @@
 name: yolov8-coreapi-fmv
-workspace: Tiger Team
+workspace: Bijan
 project: Real Time Object Detection
 description: "YoloV8 Real Time Object Detection"
 entrypoint: >-
@@ -10,15 +10,15 @@ bind_mounts:
   - container_path: /run/determined/workdir/
     host_path: /checkpoints
   - container_path: /datasets/
-    host_path: /datasets
+    host_path: /nvmefs1/shared_nb/yolov8-datasets2/
 hyperparameters:
   test: "test"
   project: 'runs'
-  name: 'test_run2'
+  name: 'test_run'
   exist_ok: True
-  data: "/datasets/tiger-team-dataset-v4-yolov5/data.yml"
+  data: "/datasets/virat-aerial-156-frames-v2-coco-yolov5/data-det.yaml"
   model: 'yolov8l.pt'
-  epochs: 20 # Number of epochs to train
+  epochs: 40 # Number of epochs to train
   imgsz: 320 # Image size of data in dataloader
   patience: 3 #128//5
   pretrained: True
@@ -58,3 +58,8 @@ searcher:
    max_length: 1 # this will be the number of epochs in this case
    metric: train/total_loss
    smaller_is_better: True
+   
+profiling:
+  begin_on_batch: 0
+  enabled: true
+  end_after_batch: null

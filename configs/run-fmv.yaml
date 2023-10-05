@@ -1,11 +1,11 @@
 name: yolov8-coreapi-fmv
-workspace: Tiger Team
+workspace: Bijan
 project: Real Time Object Detection
 description: "YoloV8 Real Time Object Detection"
 entrypoint: >-
   python core-api-train.py
 environment:
-  image: "mendeza/yolov8det:0.0.2"
+  image: "mendeza/yolov8det:0.0.3"
 bind_mounts:
   - container_path: /run/determined/workdir/
     host_path: /checkpoints
@@ -58,3 +58,9 @@ searcher:
    max_length: 1 # this will be the number of epochs in this case
    metric: train/total_loss
    smaller_is_better: True
+   
+profiling:
+  begin_on_batch: 0
+  enabled: true
+  end_after_batch: null
+  sync_timings: true

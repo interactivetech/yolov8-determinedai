@@ -9,7 +9,7 @@ from terminaltables import AsciiTable
 import determined as det
 from functools import partial
 global epoch_last
-
+import shutil
 
  # this is to track when the final_eval is done, on_fit_epoch_end runs twice at the last epoch
 def log_model(trainer,core_context):
@@ -68,6 +68,20 @@ def log_model(trainer,core_context):
     core_context.train.report_validation_metrics(steps_completed=curr_epoch, metrics=val_dict)
     table = AsciiTable(table_d)
     print(table.table)
+    
+    # NEW: Save checkpoint.
+    # NEW: Here we are saving multiple files to our checkpoint
+    # directory. 1) a model state file and 2) a file includes
+    # information about the training loop state.
+    print("Saving Checkpoint...")
+    with core_context.checkpoint.store_path({"steps_completed": curr_epoch}) as (path, storage_id):
+        print("path: ",path)
+        print("trainer.save_dir: ",trainer.save_dir)
+        shutil.copytree(trainer.save_dir,path / 'ckpt' )
+        # torch.save(model.state_dict(), path / "checkpoint.pt")
+    print("Done!")
+        # with path.joinpath("state").open("w") as f:
+        #     f.write(f"{epochs_completed},{core_context.info.trial.trial_id}")
 
 def run_train(core_context,hparams):
     FILE = Path(__file__).resolve()
