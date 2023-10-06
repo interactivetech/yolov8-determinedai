@@ -11,6 +11,13 @@ from functools import partial
 global epoch_last
 import shutil
 
+import torch
+from torch.profiler import profile, ProfilerActivity
+
+    
+def on_train_batch_end(trainer, profiler):
+    profiler.step()
+
  # this is to track when the final_eval is done, on_fit_epoch_end runs twice at the last epoch
 def log_model(trainer,core_context):
     last_weight_path = trainer.last
@@ -153,7 +160,17 @@ def run_train(core_context,hparams):
     core_context.epoch_last=-1
     trainer = detect.DetectionTrainer(overrides=experiment_params)
     trainer.add_callback('on_fit_epoch_end',partial(log_model,core_context=core_context))
-    trainer.train()
+    with torch.profiler.profile(
+                activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                schedule=torch.profiler.schedule(wait=1, warmup=1, active=3, repeat=2),
+                on_trace_ready=torch.profiler.tensorboard_trace_handler(str(core_context.train.get_tensorboard_path())),
+                record_shapes=True,
+                profile_memory=True,
+                with_stack=True
+        ) as prof:
+        trainer.add_callback('on_train_batch_end', partial(on_train_batch_end, profiler=prof))
+        trainer.train()
+    
 def main(info):
 
     latest_checkpoint = info.latest_checkpoint
@@ -168,6 +185,8 @@ def main(info):
     
     with det.core.init(distributed=distributed) as core_context:
         run_train(core_context,hparams)
+    
+
 
 if __name__ == '__main__':
     info = det.get_cluster_info()
