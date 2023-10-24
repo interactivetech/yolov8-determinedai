@@ -16,7 +16,7 @@ hyperparameters:
   project: 'runs'
   name: 'test_run2'
   exist_ok: True
-  data: "/datasets/tiger-team-dataset-v4-yolov5/data.yml"
+  data: "/datasets/tiger-team-dataset-v6-yolov5/data.yml"
   model: 'yolov8l.pt'
   epochs: 20 # Number of epochs to train
   imgsz: 320 # Image size of data in dataloader

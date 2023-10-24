@@ -3,3 +3,4 @@ datasets/
 *.pt
 exported_weights/
 *.engine
+*.onnx
